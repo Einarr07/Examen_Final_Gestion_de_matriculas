@@ -72,7 +72,7 @@ export const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/registro`
+            const url = `${import.meta.env.VITE_BACKEND_URL}api/usuarios/registro`
             const respuesta = await axios.post(url, form)
             setMensaje({ respuesta: respuesta.data.msg, tipo: true })
             setForm({})
@@ -106,24 +106,6 @@ export const Register = () => {
                             <input type="text" id="apellido" name='apellido'
                                 value={form.apellido || ""} onChange={handleChange}
                                 placeholder="Ingresa tu apellido" className="block w-full rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500" required />
-                        </div>
-
-                        <div className="mb-3">
-                            <label className="mb-2 block text-sm font-semibold" htmlFor="direccion">
-                                Dirección ({direccionLength}/60):
-                            </label>
-                            <input type="text" id="direccion" name='direccion'
-                                value={form.direccion || ""} onChange={handleChange}
-                                placeholder="Ingresa tu dirección" className="block w-full rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500" required />
-                        </div>
-
-                        <div className="mb-3">
-                            <label className="mb-2 block text-sm font-semibold" htmlFor="telefono">
-                                Teléfono ({telefonoLength}/10):
-                            </label>
-                            <input type="tel" id="telefono" name='telefono'
-                                value={form.telefono || ""} onChange={handleChange}
-                                placeholder="Ingresa tu teléfono" className="block w-full rounded-md border border-gray-300 focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 py-1 px-1.5 text-gray-500" required />
                         </div>
 
                         <div className="mb-3">

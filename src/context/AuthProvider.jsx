@@ -6,7 +6,7 @@ const AuthContext = createContext()
 const actualizarPerfil = async(datos) => {
     const token = localStorage.getItem('token')
     try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/veterinario/${datos.id}`
+        const url = `${import.meta.env.VITE_BACKEND_URL}api/usuarios/${datos.id}`
         const options = {
             headers: {
                 method: 'PUT',
@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
 
     const perfil = async(token) => {
         try {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/perfil`
+            const url = `${import.meta.env.VITE_BACKEND_URL}api/usuarios`
             const options={
                 headers: {
                     'Content-Type': 'application/json',

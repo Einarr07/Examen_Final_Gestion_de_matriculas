@@ -13,29 +13,11 @@ export const Formulario = ({ paciente }) => {
     // Configuración de React Hook Form
     const { control, handleSubmit, formState: { errors } } = useForm();
 
-    // Obtiene la fecha actual en el formato requerido por el campo de fecha
-    const obtenerFechaActual = () => {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        let mm = today.getMonth() + 1; // Los meses comienzan desde 0
-        let dd = today.getDate();
-
-        if (mm < 10) {
-            mm = `0${mm}`;
-        }
-
-        if (dd < 10) {
-            dd = `0${dd}`;
-        }
-
-        return `${yyyy}-${mm}-${dd}`;
-    };
-
     const onSubmit = async (data) => {
         try {
             if (paciente?._id) {
                 const token = localStorage.getItem('token');
-                const url = `${import.meta.env.VITE_BACKEND_URL}/paciente/actualizar/${paciente?._id}`;
+                const url = `${import.meta.env.VITE_BACKEND_URL}api/materias/crear/${paciente?._id}`;
                 const options = {
                     headers: {
                         method: 'PUT',
@@ -48,7 +30,7 @@ export const Formulario = ({ paciente }) => {
             } else {
                 const token = localStorage.getItem('token');
                 data.id = auth._id;
-                const url = `${import.meta.env.VITE_BACKEND_URL}/paciente/registro`;
+                const url = `${import.meta.env.VITE_BACKEND_URL}api/materias/crear`;
                 const options = {
                     headers: {
                         'Content-Type': 'application/json',
@@ -73,7 +55,7 @@ export const Formulario = ({ paciente }) => {
             <div>
                 <label
                     htmlFor='nombre:'
-                    className='text-gray-700 uppercase font-bold text-sm'>Nombre de la mascota: </label>
+                    className='text-gray-700 uppercase font-bold text-sm'>Nombre de la materia: </label>
                 <Controller
                     name='nombre'
                     control={control}
@@ -108,171 +90,101 @@ export const Formulario = ({ paciente }) => {
 
             <div>
                 <label
-                    htmlFor='propietario'
-                    className='text-gray-700 uppercase font-bold text-sm'>Nombre del propietario: </label>
+                    htmlFor='codigo:'
+                    className='text-gray-700 uppercase font-bold text-sm'>Código de la materia: </label>
                 <Controller
-                    name='propietario'
+                    name='codigo'
                     control={control}
-                    defaultValue={paciente?.propietario ?? ""}
+                    defaultValue={paciente?.codigo ?? ""}
                     rules={{
                         required: 'Este campo es requerido',
                         minLength: {
-                            value: 3, // Mínimo 3 caracteres
-                            message: 'Mínimo 3 caracteres son requeridos'
+                            value: 3, // Valor mínimo de letras
+                            message: 'Mínimo 3 letras son requeridas'
                         },
                         maxLength: {
-                            value: 30, // Máximo 30 caracteres
-                            message: 'Máximo 30 caracteres son permitidos'
+                            value: 30, // Valor máximo de letras
+                            message: 'Máximo 30 letras son permitidas'
                         },
                         pattern: {
-                            value: /^[A-Za-z\s]+$/, // Acepta letras y espacios
-                            message: 'Ingrese solo letras sin caracteres especiales'
+                            value: /^[A-Za-z]+$/,
+                            message: 'Ingrese solo letras sin espacios ni caracteres especiales'
                         }
                     }}
                     render={({ field }) => (
                         <input
-                            id='propietario'
+                            id='codigo'
                             type="text"
-                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.propietario ? 'border-red-500' : ''}`}
-                            placeholder='nombre del propietario'
+                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.codigo ? 'border-red-500' : ''}`}
+                            placeholder='codigo de la materia'
                             {...field}
                         />
                     )}
                 />
-                {errors.nombre && <p className='text-red-500 text-sm'>{errors.nombre.message}</p>}
+                {errors.nombre && <p className='text-red-500 text-sm'>{errors.codigo.message}</p>}
             </div>
 
             <div>
                 <label
-                    htmlFor='email:'
-                    className='text-gray-700 uppercase font-bold text-sm'>Correo electrónico: </label>
+                    htmlFor='creditos:'
+                    className='text-gray-700 uppercase font-bold text-sm'>Creditos para la materia: </label>
                 <Controller
-                    name='email'
+                    name='creditos'
                     control={control}
-                    defaultValue={paciente?.email ?? ""}
+                    defaultValue={paciente?.creditos ?? ""}
                     rules={{
                         required: 'Este campo es requerido',
+                        minLength: {
+                            value: 3, // Valor mínimo de letras
+                            message: 'Mínimo 3 letras son requeridas'
+                        },
+                        maxLength: {
+                            value: 30, // Valor máximo de letras
+                            message: 'Máximo 30 letras son permitidas'
+                        },
                         pattern: {
-                            value: /^[A-Za-z0-9+_.-]+@(.+)$/,
-                            message: 'Ingrese un correo electrónico válido'
+                            value: /^[A-Za-z]+$/,
+                            message: 'Ingrese solo letras sin espacios ni caracteres especiales'
                         }
                     }}
                     render={({ field }) => (
                         <input
-                            id='email'
-                            type="email"
-                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.email ? 'border-red-500' : ''}`}
-                            placeholder='correo electrónico del propietario'
-                            {...field}
-                        />
-                    )}
-                />
-                {errors.email && <p className='text-red-500 text-sm'>{errors.email.message}</p>}
-            </div>
-            <div>
-                <label
-                    htmlFor='celular:'
-                    className='text-gray-700 uppercase font-bold text-sm'>Celular: </label>
-                <Controller
-                    name='celular'
-                    control={control}
-                    defaultValue={paciente?.celular ?? ""}
-                    rules={{
-                        required: 'Este campo es requerido',
-                        pattern: {
-                            value: /^\d{10}$/,
-                            message: 'Ingrese exactamente 10 dígitos numéricos'
-                        }
-                    }}
-                    render={({ field }) => (
-                        <input
-                            id='celular'
+                            id='creditos'
                             type="text"
-                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.celular ? 'border-red-500' : ''}`}
-                            placeholder='celular del propietario'
+                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.creditos ? 'border-red-500' : ''}`}
+                            placeholder='codigo de la materia'
                             {...field}
                         />
                     )}
                 />
-                {errors.celular && <p className='text-red-500 text-sm'>{errors.celular.message}</p>}
+                {errors.nombre && <p className='text-red-500 text-sm'>{errors.creditos.message}</p>}
             </div>
 
             <div>
                 <label
-                    htmlFor='convencional:'
-                    className='text-gray-700 uppercase font-bold text-sm'>Convencional: </label>
+                    htmlFor='descripcion:'
+                    className='text-gray-700 uppercase font-bold text-sm'>Descricion de la materia: </label>
                 <Controller
-                    name='convencional'
+                    name='descripcion'
                     control={control}
-                    defaultValue={paciente?.convencional ?? ""}
-                    rules={{
-                        required: 'Este campo es requerido',
-                        pattern: {
-                            value: /^\d{9}$/,
-                            message: 'Ingrese exactamente 9 dígitos numéricos'
-                        }
-                    }}
-                    render={({ field }) => (
-                        <input
-                            id='convencional'
-                            type="text"
-                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.convencional ? 'border-red-500' : ''}`}
-                            placeholder='convencional del propietario'
-                            {...field}
-                        />
-                    )}
-                />
-                {errors.convencional && <p className='text-red-500 text-sm'>{errors.convencional.message}</p>}
-            </div>
-
-            <div>
-                <label
-                    htmlFor='salida:'
-                    className='text-gray-700 uppercase font-bold text-sm'>Fecha de salida: </label>
-                <Controller
-                    name='salida'
-                    control={control}
-                    defaultValue={paciente?.salida ?? ""}
-                    rules={{ required: 'Este campo es requerido' }}
-                    render={({ field }) => (
-                        <input
-                            id='salida'
-                            type="date"
-                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.salida ? 'border-red-500' : ''}`}
-                            placeholder='salida'
-                            min={obtenerFechaActual()} // Configura la fecha mínima como la fecha actual
-                            {...field}
-                        />
-                    )}
-                />
-                {errors.salida && <p className='text-red-500 text-sm'>{errors.salida.message}</p>}
-            </div>
-
-            <div>
-                <label
-                    htmlFor='sintomas:'
-                    className='text-gray-700 uppercase font-bold text-sm'>Síntomas: </label>
-                <Controller
-                    name='sintomas'
-                    control={control}
-                    defaultValue={paciente?.sintomas ?? ""}
+                    defaultValue={paciente?.descripcion ?? ""}
                     rules={{
                         required: 'Este campo es requerido',
                         maxLength: {
-                            value: 500, // Máximo 500 caracteres
-                            message: 'Máximo 500 caracteres son permitidos'
+                            value: 20, // Máximo 20 caracteres
+                            message: 'Máximo 20 caracteres son permitidos'
                         }
                     }}
                     render={({ field }) => (
                         <textarea
-                            id='sintomas'
-                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.sintomas ? 'border-red-500' : ''}`}
-                            placeholder='Ingrese los síntomas de la mascota'
+                            id='descripcion'
+                            className={`border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5 ${errors.descripcion ? 'border-red-500' : ''}`}
+                            placeholder='Ingrese la descripcion de la materia'
                             {...field}
                         />
                     )}
                 />
-                {errors.sintomas && <p className='text-red-500 text-sm'>{errors.sintomas.message}</p>}
+                {errors.sintomas && <p className='text-red-500 text-sm'>{errors.descripcion.message}</p>}
             </div>
 
             <input
@@ -280,7 +192,7 @@ export const Formulario = ({ paciente }) => {
                 className='bg-gray-600 w-full p-3 
                     text-slate-300 uppercase font-bold rounded-lg 
                     hover:bg-gray-900 cursor-pointer transition-all'
-                value={paciente?._id ? 'Actualizar paciente' : 'Registrar paciente'} />
+                value={paciente?._id ? 'Actualizar materia' : 'Registrar materia'} />
 
         </form>
     )

@@ -9,10 +9,10 @@ const Tabla = () => {
     
     const handleDelete = async (id) => {
         try {
-            const confirmar = window.confirm("Vas a registrar la salida de un paciente, ¿Estás seguro de realizar esta acción?");
+            const confirmar = window.confirm("Vas a eliminar una matricula, ¿Estas seguro?");
             if (confirmar) {
                 const token = localStorage.getItem('token');
-                const url = `${import.meta.env.VITE_BACKEND_URL}/paciente/eliminar/${id}`;
+                const url = `${import.meta.env.VITE_BACKEND_URL}api/materias/eliminar/${id}`;
                 const headers = {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
@@ -22,12 +22,12 @@ const Tabla = () => {
                 };
                 await axios.delete(url, { headers, data });
                 listarPacientes();
-                toast.success("Paciente eliminado exitosamente"); // Muestra una notificación de éxito
+                toast.success("Materia eleiminada exitosamente"); // Muestra una notificación de éxito
             }
         }
         catch (error) {
             console.log(error);
-            toast.error("Hubo un error al eliminar el paciente"); // Muestra una notificación de error
+            toast.error("Existio un error al eliminar la materia"); // Muestra una notificación de error
         }
     }
     
@@ -45,18 +45,18 @@ const Tabla = () => {
             sortable: true,
         },
         {
-            name: 'Propietario',
-            selector: 'propietario',
+            name: 'Código',
+            selector: 'codigo',
             sortable: true,
         },
         {
-            name: 'Correo',
-            selector: 'email',
+            name: 'Creditos',
+            selector: 'creditos',
             sortable: true,
         },
         {
-            name: 'Celular',
-            selector: 'celular',
+            name: 'Descripcion',
+            selector: 'descripcion',
             sortable: true,
         },
         {
@@ -96,7 +96,7 @@ const Tabla = () => {
     const listarPacientes = async () => {
         try {
             const token = localStorage.getItem('token')
-            const url = `${import.meta.env.VITE_BACKEND_URL}/pacientes`
+            const url = `${import.meta.env.VITE_BACKEND_URL}api/materias`
             const options = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -117,9 +117,9 @@ const Tabla = () => {
 
     const filteredPacientes = pacientes.filter((paciente) =>
     (paciente.nombre ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (paciente.propietario ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (paciente.email ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (paciente.celular ?? "").toLowerCase().includes(searchQuery.toLowerCase())
+    (paciente.codigo ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (paciente.creditos ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (paciente.descripcion ?? "").toLowerCase().includes(searchQuery.toLowerCase())
 );
 
 
@@ -147,7 +147,7 @@ const Tabla = () => {
                 <Mensaje tipo={'active'}>{'No existen registros'}</Mensaje>
             ) : (
                 <DataTable
-                    title="Lista de Pacientes"
+                    title="Lista de Materias"
                     columns={columns}
                     data={filteredPacientes}
                     highlightOnHover

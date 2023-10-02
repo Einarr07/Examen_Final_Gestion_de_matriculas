@@ -8,10 +8,9 @@ const FormularioPerfil = () => {
     const [form, setform] = useState({
         id: auth._id,
         nombre: auth.nombre || "",
-        apellido: auth.apellido || "",
-        direccion: auth.direccion || "",
-        telefono: auth.telefono || "",
-        email: auth.email || "",
+        codigo: auth.codigo || "",
+        credito: auth.credito || "",
+        descripcion: auth.descripcion || "",
     });
 
     const handleSubmit = async (e) => {
@@ -35,26 +34,17 @@ const FormularioPerfil = () => {
     const handleChange = (e) => {
         // Validar la longitud máxima para los campos de dirección, correo, nombre y apellido
         const maxLengths = {
-            direccion: 60,
-            email: 50,
-            nombre: 30,
-            apellido: 30
+            nombre: 20,
+            codigo: 20,
+            credito: 20,
+            descripcion: 20
         };
         
-        if (e.target.name === "direccion" || e.target.name === "email" || e.target.name === "nombre" || e.target.name === "apellido") {
+        if (e.target.name === "codigo" || e.target.name === "credito" || e.target.name === "nombre" || e.target.name === "descripcion") {
             const trimmedValue = e.target.value.slice(0, maxLengths[e.target.name]);
             setform({
                 ...form,
                 [e.target.name]: trimmedValue
-            });
-        } else if (e.target.name === "telefono") {
-            // Validar que solo se permitan números en el campo de teléfono
-            const numericValue = e.target.value.replace(/\D/g, ''); // Remover caracteres no numéricos
-            // Limitar la entrada a exactamente 10 números
-            const limitedValue = numericValue.slice(0, 10);
-            setform({
-                ...form,
-                [e.target.name]: limitedValue
             });
         } else {
             setform({
@@ -75,7 +65,7 @@ const FormularioPerfil = () => {
             <div>
                 <label
                     htmlFor='nombre'
-                    className='text-gray-700 uppercase font-bold text-sm'>Nombre: </label>
+                    className='text-gray-700 uppercase font-bold text-sm'>Nombre de la materia: </label>
                 <input
                     id='nombre'
                     type="text"
@@ -89,60 +79,45 @@ const FormularioPerfil = () => {
 
             <div>
                 <label
-                    htmlFor='apellido'
-                    className='text-gray-700 uppercase font-bold text-sm'>Apellido: </label>
+                    htmlFor='codigo'
+                    className='text-gray-700 uppercase font-bold text-sm'>Código materia: </label>
                 <input
-                    id='apellido'
+                    id='codigo'
                     type="text"
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    placeholder='apellido'
-                    name='apellido'
-                    value={form.apellido}
+                    placeholder='codigo'
+                    name='codigo'
+                    value={form.codigo}
                     onChange={handleChange}
                 />
             </div>
 
             <div>
                 <label
-                    htmlFor='direccion'
-                    className='text-gray-700 uppercase font-bold text-sm'>Dirección: </label>
+                    htmlFor='credito'
+                    className='text-gray-700 uppercase font-bold text-sm'>Creditos de la materia: </label>
                 <input
-                    id='direccion'
+                    id='credito'
                     type="text"
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    placeholder='direccion'
-                    name='direccion'
-                    value={form.direccion}
+                    placeholder='credito'
+                    name='credito'
+                    value={form.credito}
                     onChange={handleChange}
                 />
             </div>
 
             <div>
                 <label
-                    htmlFor='telefono'
-                    className='text-gray-700 uppercase font-bold text-sm'>Teléfono: </label>
+                    htmlFor='descripcion'
+                    className='text-gray-700 uppercase font-bold text-sm'>Descrión de la materia: </label>
                 <input
-                    id='telefono'
+                    id='descripcion'
                     type="text"
                     className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    placeholder='telefono'
-                    name='telefono'
-                    value={form.telefono}
-                    onChange={handleChange}
-                />
-            </div>
-
-            <div>
-                <label
-                    htmlFor='email'
-                    className='text-gray-700 uppercase font-bold text-sm'>Correo electrónico: </label>
-                <input
-                    id='email'
-                    type="text"
-                    className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    placeholder='email'
-                    name='email'
-                    value={form.email}
+                    placeholder='descripcion'
+                    name='descripcion'
+                    value={form.descripcion}
                     onChange={handleChange}
                 />
             </div>

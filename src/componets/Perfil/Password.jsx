@@ -47,51 +47,6 @@ const Password = () => {
 
     return (
         <>
-        <div className='mt-5'>
-                <h1 className='font-black text-4xl text-gray-500'>Contraseña</h1>
-                <hr className='my-4' />
-                <p className='mb-2'>Este módulo te permite actualizar la contraseña del usuario</p>
-        </div>
-        <form  onSubmit={handleSubmit}>
-	     {Object.keys(mensaje).length > 0 && <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>}
-
-            <div>
-                <label
-                    htmlFor='passwordactual'
-                    className='text-gray-700 uppercase font-bold text-sm'>Contraseña actual: </label>
-                <input
-                    id='passwordactual'
-                    type="password"
-                    className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    placeholder='**************'
-                    name='passwordactual'
-                    value={form.passwordactual}
-                    onChange={handleChange}
-                />
-            </div>
-
-            <div>
-                <label
-                    htmlFor='passwordnuevo'
-                    className='text-gray-700 uppercase font-bold text-sm'>Nueva contraseña: </label>
-                <input
-                    id='passwordnuevo'
-                    type="password"
-                    className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md mb-5'
-                    placeholder='**************'
-                    name='passwordnuevo'
-                    value={form.passwordnuevo}
-                    onChange={handleChange}
-                />
-            </div>
-
-            <input
-                type="submit"
-                className='bg-gray-800 w-full p-3 
-        text-slate-300 uppercase font-bold rounded-lg 
-        hover:bg-gray-600 cursor-pointer transition-all'
-                value='Actualizar' />
-        </form>
         </>
     )
 }
